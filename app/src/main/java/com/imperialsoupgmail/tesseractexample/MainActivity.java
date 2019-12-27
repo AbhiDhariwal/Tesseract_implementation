@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private TessBaseAPI mTess;
     String datapath = "";
     String lang = "hin";
+    String langPack = lang+".traineddata";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +36,7 @@ public class MainActivity extends AppCompatActivity {
         //init image
         image = BitmapFactory.decodeResource(getResources(), R.drawable.hin_image);
 
-        //initialize Tesseract API
-//        String language = "eng";
-
+        // setting up path on top of initial directory
         datapath = getFilesDir()+ "/tesseract/";
         mTess = new TessBaseAPI();
 
@@ -60,8 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 copyFiles();
         }
         if(dir.exists()) {
-//            String datafilepath = datapath+ "/tessdata/eng.traineddata";
-            String datafilepath = datapath+ "/tessdata/"+lang+".traineddata";
+            String datafilepath = datapath+ "/tessdata/"+langPack;
             File datafile = new File(datafilepath);
 
             if (!datafile.exists()) {
@@ -72,10 +70,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void copyFiles() {
         try {
-            String filepath = datapath + "/tessdata/"+lang+".traineddata";
+            String filepath = datapath + "/tessdata/"+lang+"";
             AssetManager assetManager = getAssets();
 
-            InputStream instream = assetManager.open("tessdata/"+lang+".traineddata");
+            InputStream instream = assetManager.open("tessdata/"+langPack);
             OutputStream outstream = new FileOutputStream(filepath);
 
             byte[] buffer = new byte[1024];
